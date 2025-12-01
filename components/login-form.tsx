@@ -51,22 +51,22 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2">charlie</h1>
           <p className="text-muted-foreground">A simple school image board</p>
         </div>
 
-        <div className="bg-card rounded-lg border border-border shadow-lg p-8">
+        <div className="bg-card border border-border p-6">
           <div className="flex gap-2 mb-6">
             <button
               onClick={() => {
                 setIsSignUp(false)
                 setError("")
               }}
-              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-                !isSignUp ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"
+              className={`flex-1 py-2 px-4 font-medium ${
+                !isSignUp ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
               }`}
             >
               Sign In
@@ -76,8 +76,8 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
                 setIsSignUp(true)
                 setError("")
               }}
-              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
-                isSignUp ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"
+              className={`flex-1 py-2 px-4 font-medium ${
+                isSignUp ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
               }`}
             >
               Sign Up
@@ -133,11 +133,7 @@ export default function LoginForm({ onLogin }: LoginFormProps) {
               <MathCaptcha onValidate={setCaptchaValid} />
             </div>
 
-            {error && (
-              <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm p-3 rounded-lg">
-                {error}
-              </div>
-            )}
+            {error && <div className="bg-destructive text-destructive-foreground text-sm p-3">{error}</div>}
 
             <Button type="submit" disabled={loading || !captchaValid} className="w-full">
               {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}

@@ -47,22 +47,20 @@ export default function MathCaptcha({ onValidate }: MathCaptchaProps) {
 
   if (solved) {
     return (
-      <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center justify-between">
-        <span className="text-sm font-medium text-green-700">✓ Bot check passed</span>
-        <button
-          type="button"
-          onClick={generateProblem}
-          className="text-xs text-green-600 hover:text-green-700 underline"
-        >
-          Reset
-        </button>
+      <div className="bg-card border border-border p-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-foreground">✓ Bot check passed</span>
+          <button type="button" onClick={generateProblem} className="text-xs text-primary">
+            Reset
+          </button>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="bg-muted border border-border rounded-lg p-4 space-y-3">
-      <label className="block text-sm font-medium text-foreground">
+    <div className="bg-card border border-border p-3">
+      <label className="block text-sm font-medium text-foreground mb-2">
         Bot Check: Solve {problem.a} {problem.op} {problem.b}
       </label>
       <div className="flex gap-2">

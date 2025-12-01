@@ -1,10 +1,7 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 
 interface ImageUploadFormProps {
   onUpload: (imageData: any) => void
@@ -30,18 +27,18 @@ export default function ImageUploadForm({ onUpload }: ImageUploadFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!title.trim() || !preview) {
-      alert("Please add a title and select an image")
+    if (!title.trim() && !description.trim()) {
+      alert("Post something!")
       return
     }
 
     setLoading(true)
-    await new Promise((resolve) => setTimeout(resolve, 500))
+    await new Promise((resolve) => setTimeout(resolve, 300))
 
     onUpload({
       title,
       description,
-      image: preview,
+      image: preview || null,
     })
 
     setTitle("")
@@ -51,60 +48,61 @@ export default function ImageUploadForm({ onUpload }: ImageUploadFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-2 font-mono text-xs">
       <div>
-        <label htmlFor="image" className="block text-sm font-medium text-foreground mb-2">
-          Select Image
+        <label htmlFor="title" className="block font-bold text-foreground mb-1">
+          Subject
         </label>
-        <Input
-          id="image"
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          disabled={loading}
-          className="cursor-pointer"
-        />
-        {preview && (
-          <img
-            src={preview || "/placeholder.svg"}
-            alt="Preview"
-            className="mt-4 max-h-48 rounded-lg border border-border"
-          />
-        )}
-      </div>
-
-      <div>
-        <label htmlFor="title" className="block text-sm font-medium text-foreground mb-2">
-          Title
-        </label>
-        <Input
+        <input
           id="title"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Give your image a title"
+          placeholder="Subject (optional)"
           disabled={loading}
+          className="w-full px-2 py-1 border border-foreground bg-background text-foreground placeholder-muted-foreground focus:outline-none"
         />
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-foreground mb-2">
-          Description (optional)
+        <label htmlFor="description" className="block font-bold text-foreground mb-1">
+          Comment
         </label>
         <textarea
           id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Add a description"
+          placeholder="What's on your mind?"
           disabled={loading}
-          rows={3}
-          className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50"
+          rows={4}
+          className="w-full px-2 py-1 border border-foreground bg-background text-foreground placeholder-muted-foreground focus:outline-none font-mono text-xs"
         />
       </div>
 
-      <Button type="submit" disabled={loading || !preview} className="w-full">
-        {loading ? "Uploading..." : "Upload Image"}
-      </Button>
+      <div>
+        <label htmlFor="image" className="block font-bold text-foreground mb-1">
+          Image (optional)
+        </label>
+        <input
+          id="image"
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          disabled={loading}
+          className="text-xs cursor-pointer"
+        />
+        {preview && (
+          <img src={preview || "/placeholder.svg"} alt="Preview" className="mt-2 max-w-xs border border-foreground" />
+        )}
+      </div>
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="px-3 py-1 border border-foreground bg-background text-foreground hover:bg-foreground hover:text-background font-bold text-xs disabled:opacity-50"
+      >
+        {loading ? "Posting..." : "Post"}
+      </button>
     </form>
   )
 }
